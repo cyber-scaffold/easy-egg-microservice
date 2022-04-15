@@ -1,0 +1,14 @@
+FROM node:16.14.1-alpine
+
+ENV TIMEZONE=${timezone:-"Asia/Shanghai"}
+RUN ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+  && echo "${TIMEZONE}" > /etc/timezone
+
+RUN npm install
+
+COPY ./ /data/my-node-server
+WORKDIR /data/my-node-server
+
+CMD npm run start:docker:test
+
+EXPOSE 7079
